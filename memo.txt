@@ -1,0 +1,10 @@
+
+<!-- 
+event.target
+JSON.stringify
+JSON.parse
+list.forEach(function);   function(item){ }
+Date.now()
+array.filter(function) 
+
+-->
