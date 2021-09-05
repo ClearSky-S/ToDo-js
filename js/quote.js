@@ -29,8 +29,6 @@ let randomNumber = Math.floor(Math.random()*quotes.length);
 // const date = new Date();
 // randomNumber = date.getDate()%quotes.length;
 const todaysQuote = quotes[randomNumber];
-console.log(randomNumber);
-console.log(todaysQuote);
 
 quote.textContent=todaysQuote.quote;
 author.textContent=todaysQuote.author;

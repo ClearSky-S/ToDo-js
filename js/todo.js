@@ -1,5 +1,6 @@
 const addTodoForm = document.querySelector("form#add-todo");
 const todoList = document.querySelector("ul#todo-list");
+const finishedList = document.querySelector("#finished-list");
 const finishedToggle = document.querySelector("#finished-toggle");
 const finishedNnumberElement = finishedToggle.getElementsByTagName("span")[0];
 const INPUT_ID_FRONT = "input-";
@@ -17,10 +18,66 @@ function updateLocalStorage() {
     localStorage.setItem(LOCALSTORAGE_TODO_KEY, dataString);
 }
 function loadLocalStorage() {
-    // need to work
-    // const temp = localStorage.getItem(LOCALSTORAGE_TODO_KEY);
-    // console.dir(temp);
+    const data = JSON.parse(localStorage.getItem(LOCALSTORAGE_TODO_KEY));
+    if (data === null || data.length === 0) {
+        return;
+    }
+    todoDatabase = data;
+    todoDatabase.forEach(element => {
+        const time = parseInt(element.id);
+        const submitedText = element.work;
+        const checked = element.checked;
+
+        const li = document.createElement("li");
+        li.id = time;
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.id = INPUT_ID_FRONT + time;
+        input.checked = checked;
+        li.appendChild(input);
+        input.addEventListener("change", function (e) {
+            const parent = e.target.parentNode;
+            const id = parseInt(parent.id, 10);
+            const databaseElement = todoDatabase.find((item) => item.id === id);
+            if (e.target.checked) {
+                finishedList.appendChild(parent);
+                databaseElement.checked = true;
+            } else {
+                todoList.appendChild(parent);
+                databaseElement.checked = false;
+            }
+            updateLocalStorage();
+            updateFinishedNumber();
+        })
+
+
+        const label = document.createElement("label");
+        label.htmlFor = INPUT_ID_FRONT + time;
+        label.textContent = submitedText;
+        li.appendChild(label);
+
+        const button = document.createElement("button");
+        button.innerHTML = "&mdash;"
+        button.addEventListener("click", function (e) {
+            const parent = e.target.parentNode;
+            parent.remove();
+            updateFinishedNumber();
+            todoDatabase = todoDatabase.filter(item => (item.id !== parseInt(parent.id)));
+            updateLocalStorage();
+        })
+
+        li.appendChild(button);
+        if(checked){
+            finishedList.appendChild(li);
+        } else {
+
+            todoList.appendChild(li);
+        }
+        
+    })
+    updateFinishedNumber();
 }
+loadLocalStorage();
 
 function updateFinishedNumber() {
     finishedNnumberElement.textContent = document.querySelectorAll("#finished-list li").length;
@@ -45,15 +102,17 @@ function drawTodoElement(event) {
     input.checked = false;
     li.appendChild(input);
     input.addEventListener("change", function (e) {
-        if (e.target.checked) {
-            const parent = e.target.parentNode;
-            const finishedList = document.querySelector("#finished-list");
+        const parent = e.target.parentNode;
+        const id = parseInt(parent.id, 10);
+        const databaseElement = todoDatabase.find((item) => item.id === id);
+        if (e.target.checked) {        
             finishedList.appendChild(parent);
+            databaseElement.checked = true;
         } else {
-            const parent = e.target.parentNode;
-            const todoList = document.querySelector("#todo-list");
             todoList.appendChild(parent);
+            databaseElement.checked = false;
         }
+        updateLocalStorage();
         updateFinishedNumber();
     })
 
@@ -69,6 +128,8 @@ function drawTodoElement(event) {
         const parent = e.target.parentNode;
         parent.remove();
         updateFinishedNumber();
+        todoDatabase = todoDatabase.filter(item => (item.id !== parseInt(parent.id)));
+        updateLocalStorage();
     })
 
     li.appendChild(button);
@@ -78,9 +139,10 @@ function drawTodoElement(event) {
         {
             id: time,
             work: submitedText,
-            checked: "false",
+            checked: false,
         }
-    )
+    );
+    updateLocalStorage();
 }
 addTodoForm.addEventListener("submit", drawTodoElement);
 
