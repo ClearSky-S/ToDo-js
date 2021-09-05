@@ -3,12 +3,30 @@ const todoList = document.querySelector("ul#todo-list");
 const finishedToggle = document.querySelector("#finished-toggle");
 const finishedNnumberElement = finishedToggle.getElementsByTagName("span")[0];
 const INPUT_ID_FRONT = "input-";
+const LOCALSTORAGE_TODO_KEY = "todo"
+let todoDatabase = [
+    // {
+    //     id:"123",
+    //     work:"english",
+    //     checked:"false"
+    // }
+];
 
-function updateFinishedNumber(){
+function updateLocalStorage() {
+    const dataString = JSON.stringify(todoDatabase);
+    localStorage.setItem(LOCALSTORAGE_TODO_KEY, dataString);
+}
+function loadLocalStorage() {
+    // need to work
+    // const temp = localStorage.getItem(LOCALSTORAGE_TODO_KEY);
+    // console.dir(temp);
+}
+
+function updateFinishedNumber() {
     finishedNnumberElement.textContent = document.querySelectorAll("#finished-list li").length;
 }
 
-function drawTodoElement(event){
+function drawTodoElement(event) {
     event.preventDefault();
 
     const time = Date.now();
@@ -19,19 +37,19 @@ function drawTodoElement(event){
 
     const li = document.createElement("li");
     li.id = time;
-    
+
 
     const input = document.createElement("input");
     input.type = "checkbox";
     input.id = INPUT_ID_FRONT + time;
     input.checked = false;
     li.appendChild(input);
-    input.addEventListener("change", function(e){
-        if(e.target.checked){
+    input.addEventListener("change", function (e) {
+        if (e.target.checked) {
             const parent = e.target.parentNode;
             const finishedList = document.querySelector("#finished-list");
             finishedList.appendChild(parent);
-        } else{
+        } else {
             const parent = e.target.parentNode;
             const todoList = document.querySelector("#todo-list");
             todoList.appendChild(parent);
@@ -47,35 +65,42 @@ function drawTodoElement(event){
 
     const button = document.createElement("button");
     button.innerHTML = "&mdash;"
-    button.addEventListener("click",function(e){
+    button.addEventListener("click", function (e) {
         const parent = e.target.parentNode;
         parent.remove();
         updateFinishedNumber();
     })
 
     li.appendChild(button);
-    
+
     todoList.appendChild(li);
-}   
+    todoDatabase.push(
+        {
+            id: time,
+            work: submitedText,
+            checked: "false",
+        }
+    )
+}
 addTodoForm.addEventListener("submit", drawTodoElement);
 
 
-finishedToggle.addEventListener("click", function(e){
+finishedToggle.addEventListener("click", function (e) {
     const OFF_CLASSNAME = "off";
     const finishedList = document.querySelector("#finished-list");
-    if(this.classList.contains(OFF_CLASSNAME)){
+    if (this.classList.contains(OFF_CLASSNAME)) {
         finishedList.style.display = "block";
         this.classList.toggle(OFF_CLASSNAME);
-    } else{
+    } else {
         finishedList.style.display = "none";
         this.classList.toggle(OFF_CLASSNAME);
     }
 })
 
 const clearFinishedListButton = document.querySelector("#clear-finished-list");
-clearFinishedListButton.addEventListener("click", function(e){
+clearFinishedListButton.addEventListener("click", function (e) {
     const finishedList = document.querySelectorAll("#finished-list li");
-    for(let i=0; i<finishedList.length; i++){
+    for (let i = 0; i < finishedList.length; i++) {
         finishedList[i].remove();
         updateFinishedNumber();
     }
