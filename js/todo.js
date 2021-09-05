@@ -166,4 +166,6 @@ clearFinishedListButton.addEventListener("click", function (e) {
         finishedList[i].remove();
         updateFinishedNumber();
     }
+    todoDatabase = todoDatabase.filter(element=> element.checked===false);
+    updateLocalStorage();
 })

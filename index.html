@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -18,16 +21,16 @@
     </form>
     <h1 id="greeting" class="hidden">Title</h1>
     
-    <div>
+    <div id="todo-container">
         <form id="add-todo">
             <input type="text" placeholder="add work" required>
-            <button>add</button>
+            <button>+</button>
         </form>
 
         <ul id="todo-list">
         </ul>
 
-        <button id="finished-toggle">finished <span>0</span></button>
+        <button id="finished-toggle">Finished <span>0</span></button>
         <button id="clear-finished-list">Clear</button>
         <ul id="finished-list">
         </ul>
