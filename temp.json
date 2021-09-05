@@ -1,0 +1,46 @@
+{
+    "coord": {
+        "lon": 129.0756,
+        "lat": 35.1796
+    },
+    "weather": [
+        {
+            "id": 500,
+            "main": "Rain",
+            "description": "light rain",
+            "icon": "10n"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 297.06,
+        "feels_like": 297.31,
+        "temp_min": 295.14,
+        "temp_max": 297.06,
+        "pressure": 1018,
+        "humidity": 69
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 3.09,
+        "deg": 20
+    },
+    "rain": {
+        "1h": 0.22
+    },
+    "clouds": {
+        "all": 75
+    },
+    "dt": 1630838804,
+    "sys": {
+        "type": 1,
+        "id": 8086,
+        "country": "KR",
+        "sunrise": 1630789146,
+        "sunset": 1630835178
+    },
+    "timezone": 32400,
+    "id": 1838519,
+    "name": "Busan",
+    "cod": 200
+}
